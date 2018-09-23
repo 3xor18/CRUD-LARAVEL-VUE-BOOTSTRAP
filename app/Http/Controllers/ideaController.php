@@ -15,7 +15,7 @@ class ideaController extends Controller
     public function getIdea()
     {
 
-        $ideas = idea::orderby('id', 'DES')->get();
+        $ideas = idea::get();
 
         return $ideas;
     }
@@ -28,9 +28,18 @@ class ideaController extends Controller
  */
     public function store(Request $request)
     {
-        //validamos que nos pasen informacion de welcome del input descripcion
-        $this->validate($request, ['descripcion' => 'required']);
-        idea::create($request->all());
+
+        $data = Request()->validate([
+            'descripcion' => 'required',
+        ], [
+            'descripcion.required' => 'en nombre es obligatorio',
+        ]);
+        $date = '2018-09-22 21:15:36';
+
+        idea::Create([
+            'descripcion' => $data['descripcion'],
+            'fecha'       => $date,
+        ]);
         return;
     }
 
